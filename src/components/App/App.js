@@ -41,12 +41,20 @@ function App() {
         }
     ]);
 
+    function addTrack(track) {
+        if (playlistTracks.find(savedTrack => savedTrack.id === track.id)) {
+            return; // Track already in playlist
+        }
+        setPlaylistTracks(prev => [...prev, track]);
+    }
+
+
     return (
         <div className="App">
             <h1>Jammming 🎧</h1>
             <SearchBar />
             <div className="App-playlist">
-                <SearchResults tracks={searchResults} />
+                <SearchResults tracks={searchResults} onAdd={addTrack} />
                 <Playlist
                     playlistName={playlistName}
                     playlistTracks={playlistTracks}
