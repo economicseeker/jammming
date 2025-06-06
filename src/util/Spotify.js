@@ -1,4 +1,4 @@
-const clientId = 'your-client-id';
+const clientId = 'fcba5185329348e7b8c352738ee55e28';
 const redirectUri = 'http://127.0.0.1:3000/';
 let accessToken;
 
@@ -27,42 +27,54 @@ const Spotify = {
         const hasCode = currentUrl.includes('?code=');
 
         if (!hasCode) {
-            const codeVerifier = generateRandomString(128);
-            const codeChallenge = await generateCodeChallenge(codeVerifier);
-
-            // Store code verifier in session storage
-            sessionStorage.setItem('code_verifier', codeVerifier);
-
-            const state = generateRandomString(16);
-            const scope = 'playlist-modify-public playlist-modify-private';
-
-            const authUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientId}&scope=${encodeURIComponent(
-                scope
-            )}&redirect_uri=${encodeURIComponent(
-                redirectUri
-            )}&state=${state}&code_challenge_method=S256&code_challenge=${codeChallenge}`;
-
-            console.log('Redirecting to auth URL:', authUrl);
-            window.location = authUrl;
-            return;
-        } else {
-            const code = new URLSearchParams(window.location.search).get('code');
-            const codeVerifier = sessionStorage.getItem('code_verifier');
-
-            if (!codeVerifier) {
-                console.error('No code verifier found in session storage');
-                throw new Error('No code verifier found');
-            }
-
-            const body = new URLSearchParams({
-                client_id: clientId,
-                grant_type: 'authorization_code',
-                code: code,
-                redirect_uri: redirectUri,
-                code_verifier: codeVerifier,
-            });
-
             try {
+                const codeVerifier = generateRandomString(128);
+                const codeChallenge = await generateCodeChallenge(codeVerifier);
+
+                // Store code verifier in session storage
+                sessionStorage.setItem('code_verifier', codeVerifier);
+                console.log('Stored code verifier:', codeVerifier);
+
+                const state = generateRandomString(16);
+                const scope = 'playlist-modify-public playlist-modify-private';
+
+                const authUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientId}&scope=${encodeURIComponent(
+                    scope
+                )}&redirect_uri=${encodeURIComponent(
+                    redirectUri
+                )}&state=${state}&code_challenge_method=S256&code_challenge=${codeChallenge}`;
+
+                console.log('Redirecting to auth URL:', authUrl);
+                window.location = authUrl;
+                return;
+            } catch (error) {
+                console.error('Error in authorization setup:', error);
+                throw error;
+            }
+        } else {
+            try {
+                const code = new URLSearchParams(window.location.search).get('code');
+                const codeVerifier = sessionStorage.getItem('code_verifier');
+
+                console.log('Retrieved code verifier:', codeVerifier);
+
+                if (!codeVerifier) {
+                    console.error('No code verifier found in session storage');
+                    // Clear any existing session data
+                    sessionStorage.clear();
+                    // Redirect to start the auth flow again
+                    window.location = '/';
+                    return;
+                }
+
+                const body = new URLSearchParams({
+                    client_id: clientId,
+                    grant_type: 'authorization_code',
+                    code: code,
+                    redirect_uri: redirectUri,
+                    code_verifier: codeVerifier,
+                });
+
                 console.log('Requesting token with params:', {
                     client_id: clientId,
                     grant_type: 'authorization_code',
@@ -78,18 +90,18 @@ const Spotify = {
                     body: body.toString(),
                 });
 
+                const responseText = await response.text();
+                console.log('Token response:', {
+                    status: response.status,
+                    statusText: response.statusText,
+                    body: responseText
+                });
+
                 if (!response.ok) {
-                    const errorData = await response.text();
-                    console.error('Token request failed:', {
-                        status: response.status,
-                        statusText: response.statusText,
-                        error: errorData,
-                        requestBody: body.toString()
-                    });
-                    throw new Error(`Token request failed: ${response.status} ${response.statusText}`);
+                    throw new Error(`Token request failed: ${response.status} ${response.statusText} - ${responseText}`);
                 }
 
-                const data = await response.json();
+                const data = JSON.parse(responseText);
                 accessToken = data.access_token;
 
                 // Clean URL (remove ?code=...)
@@ -99,7 +111,7 @@ const Spotify = {
             } catch (error) {
                 console.error('Error fetching access token:', error);
                 // Clear the code verifier on error
-                sessionStorage.removeItem('code_verifier');
+                sessionStorage.clear();
                 throw error;
             }
         }
