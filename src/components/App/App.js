@@ -11,35 +11,41 @@ function App() {
             name: 'Lose Yourself',
             artist: 'Eminem',
             album: '8 Mile',
+            uri: 'spotify:track:1uZkxN9dW6slhaCrPCC3Ff',
         },
         {
             id: 2,
             name: 'Levitating',
             artist: 'Dua Lipa',
             album: 'Future Nostalgia',
+            uri: 'spotify:track:463CkQjx2Zk1yXoBuierM9',
         },
         {
             id: 3,
             name: 'Blinding Lights',
             artist: 'The Weeknd',
             album: 'After Hours',
+            uri: 'spotify:track:0VjIjW4GlUZAMYd2vXMi3b',
         },
     ]);
     const [playlistName, setPlaylistName] = useState("New Playlist");
     const [playlistTracks, setPlaylistTracks] = useState([
         {
             id: 4,
-            name: "Peaches",
-            artist: "Justin Bieber",
-            album: "Justice",
+            name: 'Peaches',
+            artist: 'Justin Bieber',
+            album: 'Justice',
+            uri: 'spotify:track:4iJyoBOLtHqaGxP12qzhQI',
         },
         {
             id: 5,
-            name: "good 4 u",
-            artist: "Olivia Rodrigo",
-            album: "SOUR",
-        }
+            name: 'good 4 u',
+            artist: 'Olivia Rodrigo',
+            album: 'SOUR',
+            uri: 'spotify:track:4ZtFanR9U6ndgddUvNcjcG',
+        },
     ]);
+
 
     function addTrack(track) {
         if (playlistTracks.find(savedTrack => savedTrack.id === track.id)) {
@@ -58,6 +64,16 @@ function App() {
         setPlaylistName(name);
     };
 
+    function savePlaylist() {
+        const trackUris = playlistTracks.map(track => track.uri);
+        console.log('Saving playlist to Spotify with URIs:', trackUris);
+
+        // Reset state
+        setPlaylistName('New Playlist');
+        setPlaylistTracks([]);
+    };
+
+
 
     return (
         <div className="App">
@@ -70,6 +86,7 @@ function App() {
                     playlistTracks={playlistTracks}
                     onRemove={removeTrack}
                     onNameChange={updatePlaylistName}
+                    onSave={savePlaylist}
                 />
             </div>
         </div>
