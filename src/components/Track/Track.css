@@ -1,0 +1,30 @@
+.Track {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    border-bottom: 1px solid #ccc;
+}
+
+.Track-information {
+    text-align: left;
+    flex-grow: 1;
+    margin-left: 1rem;
+}
+
+.Track-information h3 {
+    margin: 0;
+}
+
+.Track-information p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.Track-action {
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+}

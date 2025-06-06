@@ -1,0 +1,37 @@
+.SearchBar {
+    margin-bottom: 2rem;
+}
+
+.SearchBar input {
+    padding: 0.5rem;
+    width: 300px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.SearchBar input:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+}
+
+.SearchBar button {
+    margin-left: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: #1db954;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.SearchBar button:hover:not(:disabled) {
+    background-color: #1ed760;
+}
+
+.SearchBar button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}

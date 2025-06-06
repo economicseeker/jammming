@@ -1,0 +1,19 @@
+.Playlist {
+    width: 45%;
+    padding: 1rem;
+    background-color: #e6f7ff;
+    border-radius: 8px;
+}
+
+.Playlist input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.Playlist button {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+}

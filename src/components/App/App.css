@@ -1,0 +1,28 @@
+.App {
+  text-align: center;
+  padding: 2rem;
+}
+
+.App-playlist {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 2rem;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 4px;
+  border: 1px solid #ef9a9a;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  font-size: 1.2rem;
+  color: #666;
+}
