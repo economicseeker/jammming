@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
+import Spotify from '../../util/Spotify'; // Adjust if your folder structure differs
 
 function App() {
     const [searchResults, setSearchResults] = useState([
@@ -28,7 +29,9 @@ function App() {
             uri: 'spotify:track:0VjIjW4GlUZAMYd2vXMi3b',
         },
     ]);
-    const [playlistName, setPlaylistName] = useState("New Playlist");
+
+    const [playlistName, setPlaylistName] = useState('New Playlist');
+
     const [playlistTracks, setPlaylistTracks] = useState([
         {
             id: 4,
@@ -46,34 +49,41 @@ function App() {
         },
     ]);
 
+    // ✅ Handle PKCE-based Spotify authentication on mount
+    useEffect(() => {
+        Spotify.getAccessToken()
+            .then((token) => {
+                console.log('Spotify Access Token:', token);
+                // Store if needed, or just keep logging for now
+            })
+            .catch((error) => {
+                console.error('Error fetching access token:', error);
+            });
+    }, []);
 
     function addTrack(track) {
-        if (playlistTracks.find(savedTrack => savedTrack.id === track.id)) {
-            return; // Track already in playlist
-        }
+        if (playlistTracks.find(savedTrack => savedTrack.id === track.id)) return;
         setPlaylistTracks(prev => [...prev, track]);
-    };
+    }
 
     function removeTrack(track) {
-        setPlaylistTracks(prevTracks =>
-            prevTracks.filter(savedTrack => savedTrack.id !== track.id)
+        setPlaylistTracks(prev =>
+            prev.filter(savedTrack => savedTrack.id !== track.id)
         );
-    };
+    }
 
     function updatePlaylistName(name) {
         setPlaylistName(name);
-    };
+    }
 
     function savePlaylist() {
         const trackUris = playlistTracks.map(track => track.uri);
         console.log('Saving playlist to Spotify with URIs:', trackUris);
 
-        // Reset state
+        // Placeholder — actual API call will come in Task 10
         setPlaylistName('New Playlist');
         setPlaylistTracks([]);
-    };
-
-
+    }
 
     return (
         <div className="App">
