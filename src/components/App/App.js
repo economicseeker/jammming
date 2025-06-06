@@ -54,6 +54,9 @@ function App() {
         );
     };
 
+    function updatePlaylistName(name) {
+        setPlaylistName(name);
+    };
 
 
     return (
@@ -66,6 +69,7 @@ function App() {
                     playlistName={playlistName}
                     playlistTracks={playlistTracks}
                     onRemove={removeTrack}
+                    onNameChange={updatePlaylistName}
                 />
             </div>
         </div>

@@ -2,10 +2,14 @@ import React from 'react';
 import Tracklist from '../Tracklist/Tracklist';
 import './Playlist.css';
 
-function Playlist({ playlistName, playlistTracks, onRemove }) {
+function Playlist({ playlistName, playlistTracks, onRemove, onNameChange }) {
+    function handleNameChange(e) {
+        onNameChange(e.target.value);
+    }
+
     return (
         <div className="Playlist">
-            <input value={playlistName} readOnly />
+            <input value={playlistName} onChange={handleNameChange} />
             <Tracklist
                 tracks={playlistTracks}
                 onRemove={onRemove}
@@ -15,6 +19,7 @@ function Playlist({ playlistName, playlistTracks, onRemove }) {
         </div>
     );
 }
+
 
 
 export default Playlist;
