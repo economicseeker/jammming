@@ -1,0 +1,15 @@
+.SearchBar {
+    margin-bottom: 2rem;
+}
+
+.SearchBar input {
+    padding: 0.5rem;
+    width: 300px;
+    font-size: 1rem;
+}
+
+.SearchBar button {
+    margin-left: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+}
