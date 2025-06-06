@@ -1,0 +1,13 @@
+import React from 'react';
+import './SearchBar.css';
+
+function SearchBar() {
+    return (
+        <div className="SearchBar">
+            <input placeholder="Enter a song, album, or artist" />
+            <button>SEARCH</button>
+        </div>
+    );
+}
+
+export default SearchBar;
