@@ -2,7 +2,7 @@ import React from 'react';
 import Track from '../Track/Track';
 import './Tracklist.css';
 
-function Tracklist({ tracks, onAdd, isRemoval }) {
+function Tracklist({ tracks, onAdd, onRemove, isRemoval }) {
     return (
         <div className="Tracklist">
             {tracks.map(track => (
@@ -10,11 +10,13 @@ function Tracklist({ tracks, onAdd, isRemoval }) {
                     key={track.id}
                     track={track}
                     onAdd={onAdd}
+                    onRemove={onRemove}
                     isRemoval={isRemoval}
                 />
             ))}
         </div>
     );
 }
+
 
 export default Tracklist;

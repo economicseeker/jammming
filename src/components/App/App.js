@@ -46,7 +46,14 @@ function App() {
             return; // Track already in playlist
         }
         setPlaylistTracks(prev => [...prev, track]);
-    }
+    };
+
+    function removeTrack(track) {
+        setPlaylistTracks(prevTracks =>
+            prevTracks.filter(savedTrack => savedTrack.id !== track.id)
+        );
+    };
+
 
 
     return (
@@ -58,6 +65,7 @@ function App() {
                 <Playlist
                     playlistName={playlistName}
                     playlistTracks={playlistTracks}
+                    onRemove={removeTrack}
                 />
             </div>
         </div>
